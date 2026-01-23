@@ -10,7 +10,7 @@ for i in years:
     for j in months:
         req = requests.get(baseUrl + "/"+i+"/"+j)
         s = BeautifulSoup(req.text,'html.parser')
-        print(s.find("section",class_="col-span-containter"))
+        print(s.find("section", class_="col-span-container"))
         
 res = requests.get("https://www.sciencealert.com/suni-williams-retires-after-record-space-career-and-final-ill-fated-mission")
 id = 23675
