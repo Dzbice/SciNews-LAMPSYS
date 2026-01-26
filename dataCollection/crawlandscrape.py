@@ -50,7 +50,7 @@ def saveSite(site):
 
 def saveInfo(content,site, links):
     TITLE = content.find("h1",class_="text-h2 sm:text-h1 font-source-sans font-semibold text-legibility block mb-4").text
-    AUTHORS = content.find("span", class_=" text-body-sm sm:text-body-md uppercase inline").text
+    AUTHORS = content.find("span", class_="text-body-sm sm:text-body-md uppercase inline").text
     CATEGORY = content.find("a",class_="article-cat text-body-sm sm:text-body-md uppercase font-source-sans font-semibold text-legibility inline-block mr-3").text
     DATE = content.find("span",class_="article-date text-body-xs sm:text-body-sm text-gray-500 block mr-3").text
     PLAINTEXT = content.get_text()
@@ -67,7 +67,17 @@ def saveInfo(content,site, links):
 }
 
 
-df = pd.DataFrame()
+df = pd.DataFrame(columns=[
+    "id",
+    "title",
+    "authors",
+    "category",
+    "date",
+    "url",
+    "plaintext",
+    "html",
+    "all_links"
+])
 publisher_domains = loadPublisherDomans("dataCollection/Publishers_Domain_List.csv")
 baseUrl = "https://www.sciencealert.com"
 years = ["2022","2023","2024","2025","2026"]
