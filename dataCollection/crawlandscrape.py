@@ -44,14 +44,14 @@ def saveSite(site):
     if publisherLinksFound:
         publishedLinks = publishedLinks + len(publisherLinksFound)
         saveInfo(content, site, publishedLinks)
-        print(publisherLinksFound)
         id = id +1
 
 
 def saveInfo(content,site, links):
-    TITLE = content.find("h1",class_="text-h2 sm:text-h1 font-source-sans font-semibold text-legibility block mb-4").text
-    AUTHORS = content.find("span", class_="text-body-sm sm:text-body-md uppercase inline").text
-    CATEGORY = content.find("a",class_="article-cat text-body-sm sm:text-body-md uppercase font-source-sans font-semibold text-legibility inline-block mr-3").text
+    print(site)
+    TITLE = content.find_all("h1")[0].text
+    AUTHORS = content.find("div", class_="author-details").find_all("span")[1].text
+    CATEGORY = content.find_all("a",class_="article-cat text-body-sm sm:text-body-md uppercase font-source-sans font-semibold text-legibility inline-block mr-3")[0].text
     DATE = content.find("span",class_="article-date text-body-xs sm:text-body-sm text-gray-500 block mr-3").text
     PLAINTEXT = content.get_text()
     df.loc[len(df)] = {
