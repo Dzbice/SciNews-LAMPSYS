@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import urllib
 
 
 baseUrl = "https://www.sciencealert.com"
@@ -10,8 +11,20 @@ for i in years:
     for j in months:
         req = requests.get(baseUrl + "/"+i+"/"+j)
         s = BeautifulSoup(req.text,'html.parser')
-        print(s.find("section", class_="col-span-container"))
-        
+        cont = s.find("div", class_="container-posts")
+        if cont:
+            print(f"{i}/{j}")
+            link = cont.find_all("a")
+        else:
+            pass
+x = 0
+for _ in link:
+    print(_['href'])
+    x = x+1
+    print(x)
+
+
+
 res = requests.get("https://www.sciencealert.com/suni-williams-retires-after-record-space-career-and-final-ill-fated-mission")
 id = 23675
 
