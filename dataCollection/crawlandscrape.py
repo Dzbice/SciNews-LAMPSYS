@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib.parse import urlparse
+import csv
 
 
 def loadPublisherDomans(path):
