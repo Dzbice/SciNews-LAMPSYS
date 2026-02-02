@@ -34,19 +34,29 @@ def saveSite(site):
     soup = BeautifulSoup(res.text, 'html.parser')
     content = soup.find("section", class_="col-span-container")
     content_links = content.find_all("a")
-    publisherLinksFound = []
+    publisherLinksFound = []        
     for i in content_links:
         totalLinks = totalLinks+1
         href = i.get("href")
         if not href:
             continue
-        if urlparse(href).netloc in publisher_domains:
-            publisherLinksFound.append(href)
+        if checkBlacklist(href):
+            if checkPublisherlist(href):
+                publisherLinksFound.append(href)
     if publisherLinksFound:
         publishedLinks = publishedLinks + len(publisherLinksFound)
         saveInfo(content, site, publisherLinksFound)
         id = id +1
-
+def checkBlacklist(domain):
+    for i in blacklist:
+        if i in domain:
+            return False
+    return True
+def checkPublisherlist(domain):
+    for i in publisher_domains:
+        if i in domain:
+            return True
+    return False
 
 def saveInfo(content, site, links):
     print(site)
@@ -100,15 +110,19 @@ df = pd.DataFrame(columns=[
 ])
 publisher_domains = loadPublisherDomans("dataCollection/Publishers_Domain_List.csv")
 baseUrl = "https://www.sciencealert.com"
-years = ["2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"]
+#years = ["2022", "2023", "2024", "2025", "2026"], testing smaller range
+years = ["2025"]
 months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+blacklist = set(["sciencealert.com","theconversation.com","wikipedia.org","canva.com","eurekalert.org","universetoday.com","wikimedia.org","businessinsider.com","unsplash.com","esa.int","creativecommons.org",
+             "nhs.uk","tandfonline.com","mayoclinic.org","theguardian.com","instagram.com","jamanetwork.com"])
 id = 23675
 totalSites = 0
 totalLinks = 0
 publishedLinks = 0
 
-crawl()
-df.to_csv("14-0126.csv", index=False, quoting=csv.QUOTE_ALL)
-with open("stats.txt","w") as fp:
-    fp.write(f"totalSites: {totalSites}\n totalLinks: {totalLinks}\n publishedLinks: {publishedLinks}")
 
+if __name__ == "__main__":
+    crawl()
+    df.to_csv("14-0126.csv", index=False, quoting=csv.QUOTE_ALL)
+    with open("stats.txt","w") as fp:
+        fp.write(f"totalSites: {totalSites}\n totalLinks: {totalLinks}\n publishedLinks: {publishedLinks}")
