@@ -101,14 +101,13 @@ publisher_domains = loadPublisherDomans("dataCollection/Publishers_Domain_List.c
 baseUrl = "https://www.sciencealert.com"
 years = ["2022","2023","2024","2025","2026"]
 months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
-res = requests.get("https://www.sciencealert.com/suni-williams-retires-after-record-space-career-and-final-ill-fated-mission")
 id = 23675
 totalSites = 0
 totalLinks = 0
 publishedLinks = 0
 
 crawl()
-df.to_csv("22-0126.csv")
+df.to_csv("22-0126.csv", index=False, quoting=csv.QUOTE_ALL)
 with open("stats.txt","w") as fp:
     fp.write(f"totalSites: {totalSites}\n totalLinks: {totalLinks}\n publishedLinks: {publishedLinks}")
 
