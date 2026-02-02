@@ -43,7 +43,7 @@ def saveSite(site):
             publisherLinksFound.append(href)
     if publisherLinksFound:
         publishedLinks = publishedLinks + len(publisherLinksFound)
-        saveInfo(content, site, publishedLinks)
+        saveInfo(content, site, publisherLinksFound)
         id = id +1
 
 
