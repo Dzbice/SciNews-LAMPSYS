@@ -21,7 +21,7 @@ def crawlto(i, j=""):
 def crawl():
     for i in years:
         if i =="2026":
-            crawlto("2026")
+            crawlto("2026","01")
             break
         for j in months:
             crawlto(i,j)
@@ -100,7 +100,7 @@ df = pd.DataFrame(columns=[
 ])
 publisher_domains = loadPublisherDomans("dataCollection/Publishers_Domain_List.csv")
 baseUrl = "https://www.sciencealert.com"
-years = ["2022","2023","2024","2025","2026"]
+years = ["2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"]
 months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
 id = 23675
 totalSites = 0
@@ -108,7 +108,7 @@ totalLinks = 0
 publishedLinks = 0
 
 crawl()
-df.to_csv("22-0126.csv", index=False, quoting=csv.QUOTE_ALL)
+df.to_csv("14-0126.csv", index=False, quoting=csv.QUOTE_ALL)
 with open("stats.txt","w") as fp:
     fp.write(f"totalSites: {totalSites}\n totalLinks: {totalLinks}\n publishedLinks: {publishedLinks}")
 
