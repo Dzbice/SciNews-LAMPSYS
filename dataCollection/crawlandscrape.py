@@ -47,24 +47,43 @@ def saveSite(site):
         id = id +1
 
 
-def saveInfo(content,site, links):
+def saveInfo(content, site, links):
     print(site)
-    TITLE = content.find_all("h1")[0].text
-    AUTHORS = content.find("div", class_="author-details").find_all("span")[1].text
-    CATEGORY = content.find_all("a",class_="article-cat text-body-sm sm:text-body-md uppercase font-source-sans font-semibold text-legibility inline-block mr-3")[0].text
-    DATE = content.find("span",class_="article-date text-body-xs sm:text-body-sm text-gray-500 block mr-3").text
-    PLAINTEXT = content.get_text()
+
+    TITLE = safe(lambda: content.find_all("h1")[0].text)
+    AUTHORS = safe(lambda: content.find("div", class_="author-details").find_all("span")[1].text)
+    CATEGORY = safe(lambda: content.find_all(
+        "a",
+        class_="article-cat text-body-sm sm:text-body-md uppercase font-source-sans font-semibold text-legibility inline-block mr-3"
+    )[0].text)
+    DATE = safe(lambda: content.find(
+        "span",
+        class_="article-date text-body-xs sm:text-body-sm text-gray-500 block mr-3"
+    ).text)
+
+    PLAINTEXT = safe(lambda: content.get_text())
+    HTML = safe(lambda: str(content))
+
     df.loc[len(df)] = {
-    "id": id,
-    "title": TITLE,
-    "authors": AUTHORS,
-    "category": CATEGORY,
-    "date": DATE,
-    "url": site,
-    "plaintext": PLAINTEXT,
-    "html": str(content),
-    "all_links": links
-}
+        "id": id,
+        "title": TITLE,
+        "authors": AUTHORS,
+        "category": CATEGORY,
+        "date": DATE,
+        "url": site,
+        "plaintext": PLAINTEXT,
+        "html": HTML,
+        "all_links": links
+    }
+    
+def safe(getter, default="not found"):
+    try:
+        value = getter()
+        if value:
+            return value.strip()
+    except Exception:
+        pass
+    return default
 
 
 df = pd.DataFrame(columns=[
