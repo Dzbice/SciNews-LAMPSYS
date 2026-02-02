@@ -110,8 +110,7 @@ df = pd.DataFrame(columns=[
 ])
 publisher_domains = loadPublisherDomans("dataCollection/Publishers_Domain_List.csv")
 baseUrl = "https://www.sciencealert.com"
-#years = ["2022", "2023", "2024", "2025", "2026"], testing smaller range
-years = ["2025"]
+years = ["2022", "2023", "2024", "2025", "2026"]
 months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
 blacklist = set(["sciencealert.com","theconversation.com","wikipedia.org","canva.com","eurekalert.org","universetoday.com","wikimedia.org","businessinsider.com","unsplash.com","esa.int","creativecommons.org",
              "nhs.uk","tandfonline.com","mayoclinic.org","theguardian.com","instagram.com","jamanetwork.com"])
@@ -123,6 +122,6 @@ publishedLinks = 0
 
 if __name__ == "__main__":
     crawl()
-    df.to_csv("14-0126.csv", index=False, quoting=csv.QUOTE_ALL)
-    with open("stats.txt","w") as fp:
+    df.to_csv("dataCollection/22-0126.csv", index=False, quoting=csv.QUOTE_ALL)
+    with open("dataCollection/stats.txt","w") as fp:
         fp.write(f"totalSites: {totalSites}\n totalLinks: {totalLinks}\n publishedLinks: {publishedLinks}")
