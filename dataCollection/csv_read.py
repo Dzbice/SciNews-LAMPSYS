@@ -1,3 +1,3 @@
 import pandas as pd
-df = pd.read_csv("dataCollection/data/19-22.csv")
+df = pd.read_csv("dataCollection/data/combined.csv")
 print(df)
