@@ -7,7 +7,7 @@ import csv
 
 def loadPublisherDomans(path):
     df = pd.read_csv(path)
-    return set(df["Publisher Domain"].tolist())
+    return set(df["hostname"].tolist())
 
 def crawlto(i, j=""):
     req = requests.get(baseUrl + "/"+i+"/"+j)
@@ -22,6 +22,8 @@ def crawl():
     for i in years:
         if i =="2026":
             crawlto("2026","01")
+            crawlto("2026","02")
+            crawlto("2026","03")
             break
         for j in months:
             crawlto(i,j)
@@ -41,7 +43,7 @@ def saveSite(site):
         if not href:
             continue
         if checkBlacklist(href):
-            if checkPublisherlist(href):
+            if "doi" in href or checkPublisherlist(href):
                 publisherLinksFound.append(href)
     if publisherLinksFound:
         publishedLinks = publishedLinks + len(publisherLinksFound)
@@ -108,7 +110,7 @@ df = pd.DataFrame(columns=[
     "html",
     "all_links"
 ])
-publisher_domains = loadPublisherDomans("dataCollection/Publishers_Domain_List.csv")
+publisher_domains = loadPublisherDomans("dataCollection/publishers.csv")
 baseUrl = "https://www.sciencealert.com"
 years = ["2022", "2023", "2024", "2025", "2026"]
 months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
@@ -122,6 +124,6 @@ publishedLinks = 0
 
 if __name__ == "__main__":
     crawl()
-    df.to_csv("dataCollection/22-0126.csv", index=False, quoting=csv.QUOTE_ALL)
+    df.to_csv("dataCollection/22-0326.csv", index=False, quoting=csv.QUOTE_ALL)
     with open("dataCollection/stats.txt","w") as fp:
         fp.write(f"totalSites: {totalSites}\n totalLinks: {totalLinks}\n publishedLinks: {publishedLinks}")
